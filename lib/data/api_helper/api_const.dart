@@ -1,3 +1,3 @@
 class ApiConst {
-  static const String tasks = '/tasks';
+  static const String all = '/todos';
 }

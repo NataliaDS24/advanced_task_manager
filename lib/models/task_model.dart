@@ -7,7 +7,7 @@ class TaskModel {
   int? id;
   String title;
   String description;
-  final DateTime starDate;
+  DateTime starDate;
   DateTime estimatedEndDate;
   String observation;
   TaskState state;
@@ -31,7 +31,7 @@ class TaskModel {
       title: map['title'] ?? AppStrings.voidText,
       description: map['description'] ?? AppStrings.voidText,
       starDate: map['starDate'] ?? DateTime.now(),
-      estimatedEndDate: map['estimatedEndDate'] ?? DateTime.now(),
+      estimatedEndDate: map['estimatedEndDate'] ?? DateTime.now().add(const Duration(days: 1)),
       observation: map['observation'] ?? AppStrings.voidText,
       state: map['state'] != null ? int.parse(map['state']).getValueState : TaskState.pending,
       priority: map['priority'] != null ? int.parse(map['priority']).getValuePriority : TaskPriority.low,
@@ -78,4 +78,13 @@ class TaskModel {
       'priority': priority.getIntValue,
     };
   }
+
+    factory TaskModel.empty() => TaskModel(
+          title: '',
+          description: '',
+          starDate: DateTime.now(),
+          estimatedEndDate: DateTime.now().add(const Duration(days: 1)),
+          state: TaskState.pending,
+          priority: TaskPriority.low,
+        );
 }

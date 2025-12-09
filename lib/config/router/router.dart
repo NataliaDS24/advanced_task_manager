@@ -1,7 +1,9 @@
 import 'package:advanced_task_manager/config/config_imports.dart';
 import 'package:advanced_task_manager/config/router/router_path.dart' show AppRoutes;
+import 'package:advanced_task_manager/models/task_model.dart';
 import 'package:advanced_task_manager/ui/screens/home/home_screen.dart';
 import 'package:advanced_task_manager/ui/screens/splash/splash_screen.dart';
+import 'package:advanced_task_manager/ui/screens/task_action/task_action_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -16,6 +18,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _buildRoute(
         settings: settings,
         builder: const HomeTasksListScreen(),
+      );
+    case AppRoutes.taskAction:
+      final args = settings.arguments;
+      TaskModel? task;
+      if (args != null && args is TaskModel) {
+        task = args;
+      }
+      return _buildRoute(
+        settings: settings,
+        builder: TaskFormScreen(task: task),
       );
     default:
       return _errorRoute();

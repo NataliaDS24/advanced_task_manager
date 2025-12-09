@@ -1,4 +1,5 @@
 import 'package:advanced_task_manager/config/config_imports.dart';
+import 'package:advanced_task_manager/config/router/router_path.dart';
 import 'package:advanced_task_manager/enums/task_state.dart';
 import 'package:advanced_task_manager/ui/screens/home/home_notifier_provider.dart';
 import 'package:advanced_task_manager/ui/widgets/appbar_home.dart';
@@ -28,32 +29,42 @@ class HomeTasksListScreen extends ConsumerWidget {
                   itemCount: state.tasks.length,
                   itemBuilder: (context, index) {
                     final task = state.tasks[index];
-                    return ListTile(
-                      title: Text(
-                        task.title, 
-                        style: AppTextStyles.blackInterSemiBold15,
-                      ),
-                      enabled: task.state != TaskState.completed ? true : false,
-                      tileColor: task.state != TaskState.completed ? AppColors.lightRed : AppColors.lightGreen,
-                      subtitle: Text(
-                          "${AppStrings.stateTask} ${task.state.name}${AppStrings.priorityTask} ${task.priority.name}",
-                          style: AppTextStyles.blackInterThin10,
+                    return Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: AppColors.grey,
+                            width: 1.0,
                           ),
-                      leading: Checkbox(
-                        value: task.state == TaskState.completed,
-                        onChanged: (_) {
-                          notifier.toggleTaskCompleted(task);
+                        ),
+                      ),
+                      child: ListTile(
+                        title: Text(
+                          task.title, 
+                          style: AppTextStyles.blackInterSemiBold15,
+                        ),
+                        enabled: task.state != TaskState.completed ? true : false,
+                        tileColor: task.state != TaskState.completed ? AppColors.lightRed : AppColors.lightGreen,
+                        subtitle: Text(
+                            "${AppStrings.stateTask} ${task.state.name}${AppStrings.priorityTask} ${task.priority.name}",
+                            style: AppTextStyles.blackInterThin10,
+                            ),
+                        leading: Checkbox(
+                          value: task.state == TaskState.completed,
+                          onChanged: (_) {
+                            notifier.toggleTaskCompleted(task);
+                          },
+                        ),
+                        onTap: () {
+                          Navigator.pushNamed(context, AppRoutes.taskAction, arguments: task);
                         },
                       ),
-                      onTap: () {
-                        Navigator.pushNamed(context, '/task_form', arguments: task);
-                      },
                     );
                   },
                 ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/task_form');
+          Navigator.pushNamed(context, AppRoutes.taskAction);
         },
         child: const Icon(Icons.add),
       ),

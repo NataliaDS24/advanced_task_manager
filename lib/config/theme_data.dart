@@ -10,7 +10,7 @@ class ThemeDataApp {
         color: AppColors.white,
       ),
     ),
-    scaffoldBackgroundColor: AppColors.white,
+    scaffoldBackgroundColor: AppColors.grey,
     useMaterial3: true,
   );
 }
