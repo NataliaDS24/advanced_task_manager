@@ -5,21 +5,29 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
 class HomeStateNotifier {
-  final List<TaskModel> tasks;
+  final List<TaskModel> allTasks;
+  final List<TaskModel> filteredTasks;
   final bool isLoading;
+  final TaskState? filter;
 
   HomeStateNotifier({
-    required this.tasks,
+    required this.allTasks,
+    required this.filteredTasks,
     this.isLoading = false,
+    this.filter,
   });
 
   HomeStateNotifier copyWith({
-    List<TaskModel>? tasks,
+    List<TaskModel>? allTasks,
+    List<TaskModel>? filteredTasks,
     bool? isLoading,
+    TaskState? filter,
   }) {
     return HomeStateNotifier(
-      tasks: tasks ?? this.tasks,
+      allTasks: allTasks ?? this.allTasks,
+      filteredTasks: filteredTasks ?? this.filteredTasks,
       isLoading: isLoading ?? this.isLoading,
+      filter: filter ?? this.filter,
     );
   }
 }
@@ -27,7 +35,7 @@ class HomeStateNotifier {
 class HomeNotifier extends StateNotifier<HomeStateNotifier> {
   final Ref ref;
 
-  HomeNotifier(this.ref) : super(HomeStateNotifier(tasks: [])) {
+  HomeNotifier(this.ref) : super(HomeStateNotifier(allTasks: [], filteredTasks: [])) {
     loadTasks();
   }
 
@@ -37,7 +45,24 @@ class HomeNotifier extends StateNotifier<HomeStateNotifier> {
 
     final listTasks = await TasksTable.getAllTasks();
 
-    state = state.copyWith(tasks: listTasks, isLoading: false);
+    state = state.copyWith(
+      allTasks: listTasks,
+      filteredTasks: _applyFilter(listTasks, state.filter),
+      isLoading: false,
+    );
+  }
+
+  // Apply filter to tasks
+  List<TaskModel> _applyFilter(List<TaskModel> tasks, TaskState? filter) {
+    if (filter == null) return tasks;
+    return tasks.where((t) => t.state == filter).toList();
+  }
+
+  void changeFilter(TaskState? filter) {
+    state = state.copyWith(
+      filter: filter,
+      filteredTasks: _applyFilter(state.allTasks, filter),
+    );
   }
 
   // Change status from completed to pending
