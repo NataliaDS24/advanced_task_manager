@@ -1,3 +1,6 @@
+import 'dart:ui';
+import 'package:advanced_task_manager/config/config_imports.dart';
+
 enum TaskState {
   pending,
   inProgress,
@@ -8,11 +11,22 @@ extension TaskStateStringExtension on TaskState {
   String get getName {
     switch (this) {
       case TaskState.pending:
-        return 'Pendiente';
+        return AppStrings.pending;
       case TaskState.inProgress:
-        return 'En Progreso';
+        return AppStrings.inProgres;
       case TaskState.completed:
-        return 'Completada';
+        return AppStrings.completed;
+    }
+  }
+
+  Color get getColor {
+    switch (this) {
+      case TaskState.pending:
+        return AppColors.greyMedium;
+      case TaskState.inProgress:
+        return AppColors.cynBlue;
+      case TaskState.completed:
+        return AppColors.darkGreen;
     }
   }
 }

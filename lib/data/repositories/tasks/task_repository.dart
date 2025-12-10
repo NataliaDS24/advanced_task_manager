@@ -7,7 +7,7 @@ class TaskRepository {
   final Dio dio;
   TaskRepository(this.dio);
 
-  Future<List<TaskModel>> fetchInitialTasks({int limit = 15}) async {
+  Future<List<TaskModel>> fetchInitialTasks({int limit = 10}) async {
     try {
       final response = await dio.get(ApiConst.all);
 

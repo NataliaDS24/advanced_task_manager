@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:advanced_task_manager/config/config_imports.dart';
+
 enum TaskPriority {
   low,
   medium,
@@ -8,11 +12,33 @@ extension TaskPriorityStringExtension on TaskPriority {
   String get getName {
     switch (this) {
       case TaskPriority.low:
-        return 'Baja';
+        return AppStrings.low;
       case TaskPriority.medium:
-        return 'Media';
+        return AppStrings.medium;
       case TaskPriority.high:
-        return 'Alta';
+        return AppStrings.high;
+    }
+  }
+
+  Color get getColor {
+    switch (this) {
+      case TaskPriority.low:
+        return AppColors.blueSoft;
+      case TaskPriority.medium:
+        return AppColors.orange;
+      case TaskPriority.high:
+        return AppColors.red;
+    }
+  }
+
+    Color get getBackgroundColor {
+    switch (this) {
+      case TaskPriority.low:
+        return AppColors.bgBlueSoft;
+      case TaskPriority.medium:
+        return AppColors.bgOrange;
+      case TaskPriority.high:
+        return AppColors.bgRed;
     }
   }
 }

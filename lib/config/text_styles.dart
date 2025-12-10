@@ -10,6 +10,13 @@ class AppTextStyles {
     fontSize: 20,
   );
 
+    static const TextStyle whiteInterBold16 = TextStyle(
+    color: AppColors.white,
+    fontFamily: 'Inter-Bold',
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
+  );
+
   static const TextStyle whiteInterSemiBold16 = TextStyle(
     color: AppColors.white,
     fontFamily: 'Inter-SemiBold',
@@ -37,10 +44,22 @@ class AppTextStyles {
     fontSize: 18,
   );
 
+    static const TextStyle blackInterBold16 = TextStyle(
+    color: AppColors.black,
+    fontFamily: 'Inter-Bold',
+    fontSize: 16,
+  );
+
   static const TextStyle blackInterSemiBold15 = TextStyle(
     color: AppColors.black,
     fontFamily: 'Inter-SemiBold',
     fontSize: 15,
+  );
+
+    static const TextStyle blackInterSemiBold13 = TextStyle(
+    color: AppColors.black,
+    fontFamily: 'Inter-SemiBold',
+    fontSize: 13,
   );
 
     static const TextStyle blackInterThin10 = TextStyle(
