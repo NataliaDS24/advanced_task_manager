@@ -42,13 +42,22 @@ class SplashScreen extends ConsumerWidget {
                   child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text("Error: ${state.errorMessage}"),
-                        const SizedBox(height: 12),
+                        Text(
+                          AppStrings.errorUnexpected,
+                          textAlign: TextAlign.center,
+                          style: AppTextStyles.primaryInterBold20,
+                          ),
+                        const SizedBox(height: 10),
                         ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(AppColors.primary),
+                          ),
                           onPressed: () {
                             ref.read(splashNotifierProvider.notifier).initializeApp();
                           },
-                          child: const Text("Reintentar"),
+                          child: Text(AppStrings.retry,
+                            style: AppTextStyles.whiteInterBold16,
+                          ),
                         )
                       ],
                     ),

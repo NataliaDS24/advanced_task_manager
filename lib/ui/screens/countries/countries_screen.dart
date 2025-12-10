@@ -30,6 +30,7 @@ class CountriesScreen extends ConsumerWidget {
                     children: [
                       Text(
                         AppStrings.errorImportingCountries,
+                        textAlign: TextAlign.center,
                         style: AppTextStyles.primaryInterBold20,
                         ),
                       const SizedBox(height: 10),

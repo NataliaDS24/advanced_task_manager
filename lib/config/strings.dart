@@ -14,6 +14,9 @@ class AppStrings {
   static const String medium = 'Medium';
   static const String high = 'High';
 
+  // Splash Screen
+  static const String errorUnexpected = 'An unexpected error occurred';
+
   // Home Screen
   static const String noTasks = 'No tasks were found';
   static const String all = 'All';
