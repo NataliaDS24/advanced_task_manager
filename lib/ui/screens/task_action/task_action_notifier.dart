@@ -88,17 +88,17 @@ class TaskActionNotifier extends StateNotifier<TaskActionState> {
     }
   }
 
-    Future<void> enableEditTask() async {
+    Future<void> enableEditTask({TaskModel? task}) async {
     try {
-      state = state.copyWith(isEditing: !state.isEditing);
+      state = state.copyWith(isEditing: !state.isEditing, task: task ?? state.task);
     } catch (e) {
       state = state.copyWith(error: e.toString());
     }
   }
 
-    void resetForm() {
+    void resetForm({TaskModel? task}) {
     state = TaskActionState(
-      task: TaskModel.empty(),
+      task: task ?? TaskModel.empty(),
       isSaving: false,
       isEditing: false,
       error: null,

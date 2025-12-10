@@ -14,12 +14,22 @@ class TaskFormScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final taskCopy = task != null ? TaskModel(
+      id: task!.id,
+      title: task!.title,
+      description: task!.description,
+      starDate: task!.starDate,
+      estimatedEndDate: task!.estimatedEndDate,
+      observation: task!.observation,
+      state: task!.state,
+      priority: task!.priority,
+    ) : null;
     final state = ref.watch(taskActionNotifierProvider(task));
     final notifier = ref.read(taskActionNotifierProvider(task).notifier);
 
     return WillPopScope(
       onWillPop: () async {
-        notifier.resetForm();
+        notifier.resetForm(task: task == null ? null : taskCopy);
         return true;
       },
       child: Scaffold(
@@ -153,7 +163,7 @@ class TaskFormScreen extends ConsumerWidget {
               ),
         floatingActionButton: task != null ? FloatingActionButton(
           onPressed: () async {
-            await notifier.enableEditTask();
+            await notifier.enableEditTask(task: taskCopy);
           },
           child: Icon(state.isEditing ? Icons.close : Icons.edit),
         ) : null,
