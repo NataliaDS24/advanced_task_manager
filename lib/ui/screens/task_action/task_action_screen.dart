@@ -1,3 +1,4 @@
+import 'package:advanced_task_manager/config/config_imports.dart';
 import 'package:advanced_task_manager/enums/task_priority.dart';
 import 'package:advanced_task_manager/enums/task_state.dart';
 import 'package:advanced_task_manager/models/task_model.dart';
@@ -34,121 +35,254 @@ class TaskFormScreen extends ConsumerWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-            title: Text(task == null ? 'Nueva Tarea' : 'Editar Tarea'),
+            title: Text(
+              task == null ? AppStrings.newTask : state.isEditing ? AppStrings.editTask : AppStrings.detailsTask,
+              style: AppTextStyles.whiteInterBold20,
+              ),
         ),
         body: state.isSaving
             ? const Center(child: CircularProgressIndicator())
             : Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(20),
                 child: ListView(
                   children: [
-                    TextFormField(
-                      enabled: task != null && state.isEditing ||
-                        task == null ? true : false,
-                      initialValue: state.task.title,
-                      decoration: const InputDecoration(labelText: 'Título'),
-                      onChanged: notifier.updateTitle,
-                    ),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      enabled: task != null && state.isEditing ||
-                        task == null ? true : false,
-                      initialValue: state.task.description,
-                      decoration: const InputDecoration(labelText: 'Descripción'),
-                      onChanged: notifier.updateDescription,
-                    ),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      enabled: task != null && state.isEditing ||
-                        task == null ? true : false,
-                      initialValue: state.task.observation,
-                      decoration: const InputDecoration(labelText: 'Observación'),
-                      onChanged: notifier.updateObservation,
-                    ),
-                    const SizedBox(height: 10),
-                    ListTile(
-                      title: Text('Fecha de inicio: ${state.task.starDate.toStringDateTimeIso()}'),
-                      trailing: const Icon(Icons.calendar_today),
-                      enabled: task == null ? true : false,
-                      onTap: () async {
-                        final date = await showDatePicker(
-                          context: context,
-                          initialDate: state.task.starDate,
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2100),
-                        );
-                        if (date != null) notifier.updateStartDate(date);
-                      },
-                    ),
-                    ListTile(
-                      title: Text(
-                          'Fecha estimada de finalización: ${state.task.estimatedEndDate.toStringDateTimeIso()}'),
-                      trailing: const Icon(Icons.calendar_today),
-                      enabled: task != null && state.isEditing ||
-                        task == null ? true : false,
-                      onTap: () async {
-                        final date = await showDatePicker(
-                          context: context,
-                          initialDate: state.task.estimatedEndDate,
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2100),
-                        );
-                        if (date != null) notifier.updateEstimatedEndDate(date);
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    DropdownButtonFormField<TaskState>(
-                      value: state.task.state,
-                      decoration: const InputDecoration(labelText: 'Estado'),
-                      items: task != null && state.isEditing ||
-                        task == null ? TaskState.values
-                          .map((e) => DropdownMenuItem(value: e, child: Text(e.getName)))
-                          .toList() : null,
-                      disabledHint: Text(
-                        state.task.state.getName,
-                        style: TextStyle(color: Colors.grey),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      onChanged: (v) {
-                        if (v != null) notifier.updateState(v);
-                      },
+                      child: TextFormField(
+                        enabled: task != null && state.isEditing ||
+                          task == null ? true : false,
+                        initialValue: state.task.title,
+                        decoration: const InputDecoration(labelText: AppStrings.title),
+                        onChanged: notifier.updateTitle,
+                        maxLines: 2,
+                      ),
                     ),
                     const SizedBox(height: 10),
-                    DropdownButtonFormField<TaskPriority>(
-                      value: state.task.priority,
-                      decoration: const InputDecoration(labelText: 'Prioridad'),
-                      items: task != null && state.isEditing ||
-                        task == null ? TaskPriority.values
-                          .map((e) => DropdownMenuItem(value: e, child: Text(e.getName)))
-                          .toList() : null,
-                      disabledHint: Text(
-                        state.task.priority.getName,
-                        style: TextStyle(color: Colors.grey),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      onChanged: (v) {
-                        if (v != null) notifier.updatePriority(v);
-                      },
+                      child: TextFormField(
+                        enabled: task != null && state.isEditing ||
+                          task == null ? true : false,
+                        initialValue: state.task.description,
+                        decoration: const InputDecoration(labelText: AppStrings.description),
+                        onChanged: notifier.updateDescription,
+                        maxLines: 3,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: TextFormField(
+                        enabled: task != null && state.isEditing ||
+                          task == null ? true : false,
+                        initialValue: state.task.observation,
+                        decoration: const InputDecoration(labelText: AppStrings.observation),
+                        onChanged: notifier.updateObservation,
+                        maxLines: 4,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 7,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: ListTile(
+                              title: Text(
+                                  AppStrings.starDate,
+                                  style: AppTextStyles.blackInterSemiBold14,
+                                  ),
+                              subtitle: Text(state.task.starDate.toStringDateTimeIso()),
+                              enabled: task == null ? true : false,
+                              trailing: Container(
+                                decoration: BoxDecoration(
+                                    color: AppColors.primary,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                child: IconButton(
+                                  enableFeedback: task == null ? true : false,
+                                  icon: const Icon(Icons.calendar_today),
+                                  color: AppColors.white,
+                                  onPressed: task == null ? () async {
+                                    final date = await showDatePicker(
+                                      context: context,
+                                      initialDate: state.task.starDate,
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2100),
+                                    );
+                                    if (date != null) notifier.updateStartDate(date);
+                                  } : () {},
+                                  ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: const SizedBox(),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: const SizedBox(),
+                        ),
+                        Expanded(
+                          flex: 7,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: ListTile(
+                              title: Text(
+                                  AppStrings.endEstimatedDate,
+                                  textAlign: TextAlign.right,
+                                  style: AppTextStyles.blackInterSemiBold14,
+                                  ),
+                              subtitle: Text(
+                                state.task.estimatedEndDate.toStringDateTimeIso(),
+                                textAlign: TextAlign.right,
+                                ),
+                              leading: Container(
+                                decoration: BoxDecoration(
+                                    color: AppColors.primary,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                child: IconButton(
+                                  icon: const Icon(Icons.calendar_today),
+                                  color: AppColors.white,
+                                  onPressed: task != null && state.isEditing ||
+                                task == null ? () async {
+                                      final date = await showDatePicker(
+                                        context: context,
+                                        initialDate: state.task.estimatedEndDate,
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2100),
+                                      );
+                                      if (date != null) notifier.updateEstimatedEndDate(date);
+                                    } : () {},
+                                  ),
+                              ),
+                              enabled: task != null && state.isEditing ||
+                                task == null ? true : false,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 4,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              color: state.task.state.getColor.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: DropdownButtonFormField<TaskState>(
+                              value: state.task.state,
+                              decoration: const 
+                                InputDecoration(
+                                  labelText: AppStrings.state
+                                ),
+                              items: task != null && state.isEditing ||
+                                task == null ? TaskState.values
+                                  .map((e) => DropdownMenuItem(value: e, child: Text(e.getName)))
+                                  .toList() : null,
+                              disabledHint: Text(
+                                state.task.state.getName,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              onChanged: (v) {
+                                if (v != null) notifier.updateState(v);
+                              },
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: const SizedBox(),
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              color: state.task.priority.getBackgroundColor,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: DropdownButtonFormField<TaskPriority>(
+                              value: state.task.priority,
+                              decoration: const InputDecoration(labelText: 'Prioridad'),
+                              items: task != null && state.isEditing ||
+                                task == null ? TaskPriority.values
+                                  .map((e) => DropdownMenuItem(value: e, child: Text(e.getName)))
+                                  .toList() : null,
+                              disabledHint: Text(
+                                state.task.priority.getName,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              onChanged: (v) {
+                                if (v != null) notifier.updatePriority(v);
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 20),
                     if (task != null && state.isEditing ||
                         task == null)
-                      ElevatedButton(
-                        onPressed: () async {
-                        final response = await notifier.saveTask();
-                        if (response.status) {
-                          notifier.resetForm();
-                          Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBarUtils.successAlert(
-                              message: response.message,
-                            ),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(state.error ?? 'Error al guardar tarea')),
-                          );
-                        }
-                      },
-                        child: const Text('Guardar'),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            final response = await notifier.saveTask();
+                            if (response.status) {
+                              notifier.resetForm();
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBarUtils.successAlert(
+                                  message: response.message,
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(state.error ?? AppStrings.failedActionTask)),
+                              );
+                            }
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(AppColors.primary),
+                          ),
+                          child: Text(
+                            task != null ? AppStrings.update : AppStrings.add,
+                            style: AppTextStyles.whiteInterBold16,
+                          ),
+                        ),
                       ),
                     if (state.error != null)
                       Padding(
@@ -165,7 +299,11 @@ class TaskFormScreen extends ConsumerWidget {
           onPressed: () async {
             await notifier.enableEditTask(task: taskCopy);
           },
-          child: Icon(state.isEditing ? Icons.close : Icons.edit),
+          backgroundColor: state.isEditing ? AppColors.red : AppColors.orange,
+          child: Icon(
+            state.isEditing ? Icons.close : Icons.edit,
+            color: AppColors.white,
+            ),
         ) : null,
       ),
     );

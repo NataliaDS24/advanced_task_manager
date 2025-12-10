@@ -56,6 +56,12 @@ class AppTextStyles {
     fontSize: 15,
   );
 
+    static const TextStyle blackInterSemiBold14 = TextStyle(
+    color: AppColors.black,
+    fontFamily: 'Inter-SemiBold',
+    fontSize: 14,
+  );
+
     static const TextStyle blackInterSemiBold13 = TextStyle(
     color: AppColors.black,
     fontFamily: 'Inter-SemiBold',

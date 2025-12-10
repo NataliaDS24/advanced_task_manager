@@ -117,9 +117,15 @@ class HomeTasksListScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, AppRoutes.taskAction);
+          Navigator.pushNamed(context, AppRoutes.taskAction).then(  (_) {
+            notifier.loadTasks();
+          });
         },
-        child: const Icon(Icons.add),
+        backgroundColor: AppColors.primary,
+        child: Icon(
+          Icons.add, 
+          color: AppColors.white,
+          ),
       ),
     );
   }

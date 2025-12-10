@@ -1,3 +1,4 @@
+import 'package:advanced_task_manager/config/config_imports.dart';
 import 'package:advanced_task_manager/enums/task_priority.dart';
 import 'package:advanced_task_manager/enums/task_state.dart';
 import 'package:advanced_task_manager/models/response_general.dart';
@@ -75,12 +76,12 @@ class TaskActionNotifier extends StateNotifier<TaskActionState> {
 
       ref.read(taskNotifierProvider.notifier).loadTasks();
       return ResponseGeneral.success(
-        state.task.id == null ? 'Task created successfully' : 'Task updated successfully',
+        state.task.id == null ? AppStrings.taskCreatedSuccessfully : AppStrings.taskUpdateSuccessfully,
       );
     } catch (e) {
       state = state.copyWith(error: e.toString());
       return ResponseGeneral.failed(
-        'Failed to save task: ${e.toString()}',
+        AppStrings.failedActionTask,
       );
     } finally {
       state = state.copyWith(isSaving: false);
