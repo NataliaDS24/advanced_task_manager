@@ -295,7 +295,7 @@ class TaskFormScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-        floatingActionButton: task != null ? FloatingActionButton(
+        floatingActionButton: task != null && taskCopy?.state != TaskState.completed ? FloatingActionButton(
           onPressed: () async {
             await notifier.enableEditTask(task: taskCopy);
           },
