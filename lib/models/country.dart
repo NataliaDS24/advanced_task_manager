@@ -1,16 +1,19 @@
 class Country {
-  int id;
-  String name;
+  final String id;
+  final String name;
+  final String flag;
 
   Country({
     required this.id,
     required this.name,
+    required this.flag,
   });
 
   factory Country.fromMap({required Map map}) {
     return Country(
-      id: map['id'],
+      id: map['code'],
       name: map['name'],
+      flag: map['emoji'],
     );
   }
 }
