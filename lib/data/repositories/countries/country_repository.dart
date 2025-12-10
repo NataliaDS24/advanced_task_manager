@@ -1,3 +1,5 @@
+import 'package:advanced_task_manager/config/config_imports.dart';
+import 'package:advanced_task_manager/data/api_helper/api_const.dart';
 import 'package:advanced_task_manager/models/country.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -8,15 +10,7 @@ class CountryRepository {
 
   Future<List<Country>> getCountries() async {
     try {
-      const query = r'''
-        query {
-          countries {
-            code
-            name
-            emoji
-          }
-        }
-      ''';
+      const query = ApiConst.queryCountries;
 
       final options = QueryOptions(
         document: gql(query),
@@ -26,12 +20,12 @@ class CountryRepository {
       final result = await client.query(options);
 
       if (result.hasException) {
-        throw Exception("Error en la consulta de países.");
+        throw Exception(AppStrings.errorCountryQuery);
       }
 
       final data = result.data;
       if (data == null || data['countries'] == null) {
-        throw Exception("La API devolvió datos vacíos o inválidos.");
+        throw Exception(AppStrings.errorCountryApiEmpty);
       }
 
       final rawList = data['countries'] as List<dynamic>;
@@ -40,7 +34,7 @@ class CountryRepository {
           .toList();
 
     } catch (e) {
-      throw Exception("No fue posible obtener los países. Intente más tarde.");
+      throw Exception(AppStrings.errorCountriesRetrieved);
     }
   }
 }

@@ -19,6 +19,11 @@ class AppStrings {
   static const String all = 'All';
   static const String pendings = 'Earrings';
 
+  // Countries Screen
+  static const String titleListCountries = 'Lista de Países';
+  static const String errorImportingCountries = 'An error occurred while importing the countries.';
+  static const String retry = 'Retry';
+
   // Errors
   static const String notPhotos = 'No results found.';
   static const String errorData = 'Error bringing the information.';
@@ -26,6 +31,11 @@ class AppStrings {
   // Errors Task repository
   static const String errorLoadingTaskData = 'Error loading tasks from API';
   static const String errorTaskRepository = 'Error in TaskApiRepository:';
+
+  // Errors country repository
+  static const String errorCountryQuery = 'Error in the country query.';
+  static const String errorCountryApiEmpty = 'The API returned empty or invalid data.';
+  static const String errorCountriesRetrieved = 'The countries could not be retrieved. Please try again later.';
 
   // Errors utils
   static const String errorDatetimeToString = 'Invalid date format:';

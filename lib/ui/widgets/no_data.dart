@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
           Image.asset(AppAssets.noData),
           Text(
             text,
-            style: AppTextStyles.primaryInterSemiBold20,
+            style: AppTextStyles.primaryInterBold20,
           ),
         ],
       ),

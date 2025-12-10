@@ -24,9 +24,9 @@ class AppTextStyles {
   );
 
   // Primary color
-  static const TextStyle primaryInterSemiBold20 = TextStyle(
+  static const TextStyle primaryInterBold20 = TextStyle(
     color: AppColors.primary,
-    fontFamily: 'Inter-SemiBold',
+    fontFamily: 'Inter-Bold',
     fontSize: 20,
   );
 
